@@ -39,7 +39,7 @@ public interface UpdatePlanner {
 
    public int executeUndo();
 
-   public int executeRedo();
+   public int executeRedo(Transaction tx);
    
    /**
     * Executes the specified create table statement, and

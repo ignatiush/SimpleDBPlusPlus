@@ -50,8 +50,15 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
          result = SimpleDB.planner().executeUndo();
          return result;
       } else if (cmd.startsWith("redo")) {
-         result = SimpleDB.planner().executeRedo();
-         return result;
+         try{
+            Transaction tx = rconn.getTransaction();
+            result = SimpleDB.planner().executeRedo(tx);
+            return result;
+         } catch (RuntimeException e) {
+            rconn.rollback();
+            throw e;
+         }
+
       } else {
          try {
             Transaction tx = rconn.getTransaction();

@@ -62,5 +62,5 @@ public class Planner {
       return uplanner.executeUndo();
    }
 
-   public int executeRedo() { return uplanner.executeRedo(); }
+   public int executeRedo(Transaction tx) { return uplanner.executeRedo(tx); }
 }

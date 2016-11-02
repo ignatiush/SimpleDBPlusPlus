@@ -13,6 +13,7 @@ import simpledb.tx.concurrency.ConcurrencyMgr;
  * @author Edward Sciore
  */
 public class Transaction {
+   private boolean toCommit = true;
    private static int nextTxNum = 0;
    private static final int END_OF_FILE = -1;
    private RecoveryMgr    recoveryMgr;
@@ -37,7 +38,11 @@ public class Transaction {
       recoveryMgr = new RecoveryMgr(txnum);
       concurMgr   = new ConcurrencyMgr();
    }
-   
+
+   public void dontCommit(){
+      this.toCommit = false;
+   }
+
    /**
     * Commits the current transaction.
     * Flushes all modified buffers (and their log records),
@@ -45,6 +50,8 @@ public class Transaction {
     * releases all locks, and unpins any pinned buffers.
     */
    public void commit() {
+      if(!toCommit)
+         return;
       recoveryMgr.commit();
       concurMgr.release();
       System.out.println("transaction " + txnum + " committed");

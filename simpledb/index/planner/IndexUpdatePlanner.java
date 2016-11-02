@@ -107,7 +107,7 @@ public class IndexUpdatePlanner implements UpdatePlanner {
       return 0;
    }
 
-   public int executeRedo(){
+   public int executeRedo(Transaction tx){
       return 0;
    }
 

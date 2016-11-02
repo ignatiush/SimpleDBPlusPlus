@@ -69,14 +69,16 @@ public class BasicUpdatePlanner implements UpdatePlanner {
       current.getTransaction().rollback();
       int count = current.getCount();
       current = current.getPrevNode();
+
       return count;
    }
 
-   public int executeRedo(){
+   public int executeRedo(Transaction tx){
       if (current == latest)
          return 0;
       current = current.getNextNode();
       current.getTransaction().commit();
+      tx.dontCommit();
       return current.getCount();
    }
 
