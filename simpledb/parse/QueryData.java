@@ -9,24 +9,34 @@ import java.util.*;
  */
 public class QueryData {
    private Collection<String> fields;
+   private Map<String, String> as;
    private Collection<String> tables;
    private Predicate pred;
    
    /**
     * Saves the field and table list and predicate.
     */
-   public QueryData(Collection<String> fields, Collection<String> tables, Predicate pred) {
+   public QueryData(Collection<String> fields, Map<String, String> as, Collection<String> tables, Predicate pred) {
       this.fields = fields;
+      this.as = as;
       this.tables = tables;
       this.pred = pred;
    }
-   
+
    /**
     * Returns the fields mentioned in the select clause.
     * @return a collection of field names
     */
    public Collection<String> fields() {
       return fields;
+   }
+
+   /**
+    * Returns the fields mentioned in the select clause for as.
+    * @return a map of field names for use in as
+    */
+   public Map<String, String> as() {
+      return as;
    }
    
    /**
@@ -46,7 +56,7 @@ public class QueryData {
       return pred;
    }
    
-   public String toString() {
+   public String toString() {             //TODO: include as here
       String result = "select ";
       for (String fldname : fields)
          result += fldname + ", ";

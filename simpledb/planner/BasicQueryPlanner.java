@@ -38,6 +38,9 @@ public class BasicQueryPlanner implements QueryPlanner {
       
       //Step 4: Project on the field names
       p = new ProjectPlan(p, data.fields());
+
+      //Step 5: Rename fields
+      p = new RenamePlan(p, data.as());
       return p;
    }
 }
