@@ -55,7 +55,9 @@ public class Parser {
    
    public QueryData query() {
       lex.eatKeyword("select");
-      Collection<String> fields = selectList();
+      Object[] field_map = selectList();
+      Collection<String> fields = (Collection<String>) field_map[0];
+      Map<String, String> as = (Map<String, String>) field_map[1];
       lex.eatKeyword("from");
       Collection<String> tables = tableList();
       Predicate pred = new Predicate();
@@ -63,17 +65,30 @@ public class Parser {
          lex.eatKeyword("where");
          pred = predicate();
       }
-      return new QueryData(fields, tables, pred);
+      return new QueryData(fields, as, tables, pred);
    }
-   
-   private Collection<String> selectList() {
-      Collection<String> L = new ArrayList<String>();
-      L.add(field());
+
+   private Object[] selectList() {
+      Object [] to_ret = new Object[2];
+      Collection<String> L = new ArrayList<>();
+      Map<String, String> as = new HashMap<String, String>();
+      String current = field();
+      L.add(current);
+
+      if (lex.matchKeyword("as")){
+         lex.eatKeyword("as");
+         String nName = field();
+         as.put(current, nName);
+      }
+
       if (lex.matchDelim(',')) {
          lex.eatDelim(',');
-         L.addAll(selectList());
+         L.addAll((Collection<String>) selectList()[0]);
+         as.putAll((HashMap<String, String>) selectList()[0]);
       }
-      return L;
+      to_ret[0] = L;
+      to_ret[1] = as;
+      return to_ret;
    }
    
    private Collection<String> tableList() {
