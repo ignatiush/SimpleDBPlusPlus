@@ -23,18 +23,23 @@ public class BasicUpdatePlanner implements UpdatePlanner {
          txNode = newUpdate(tx);
       else
          tx.txRedone();
-      Plan p = new TablePlan(data.tableName(), tx);
-      p = new SelectPlan(p, data.pred());
-      UpdateScan us = (UpdateScan) p.open();
-      int count = 0;
-      while(us.next()) {
-         us.delete();
-         count++;
+      try {
+         Plan p = new TablePlan(data.tableName(), tx);
+         p = new SelectPlan(p, data.pred());
+         UpdateScan us = (UpdateScan) p.open();
+         int count = 0;
+         while (us.next()) {
+            us.delete();
+            count++;
+         }
+         us.close();
+         if(txNode != null)
+            txNode.setCount(count);
+         return count;
+      } catch (Exception e) {
+         rollbackNode();
+         return -1;
       }
-      us.close();
-      if(txNode != null)
-         txNode.setCount(count);
-      return count;
    }
    
    public int executeModify(ModifyData data, Transaction tx) {
@@ -43,19 +48,24 @@ public class BasicUpdatePlanner implements UpdatePlanner {
          txNode = newUpdate(tx);
       else
          tx.txRedone();
-      Plan p = new TablePlan(data.tableName(), tx);
-      p = new SelectPlan(p, data.pred());
-      UpdateScan us = (UpdateScan) p.open();
-      int count = 0;
-      while(us.next()) {
-         Constant val = data.newValue().evaluate(us);
-         us.setVal(data.targetField(), val);
-         count++;
+      try {
+         Plan p = new TablePlan(data.tableName(), tx);
+         p = new SelectPlan(p, data.pred());
+         UpdateScan us = (UpdateScan) p.open();
+         int count = 0;
+         while (us.next()) {
+            Constant val = data.newValue().evaluate(us);
+            us.setVal(data.targetField(), val);
+            count++;
+         }
+         us.close();
+         if(txNode != null)
+            txNode.setCount(count);
+         return count;
+      } catch (Exception e) {
+         rollbackNode();
+         return -1;
       }
-      us.close();
-      if(txNode != null)
-         txNode.setCount(count);
-      return count;
    }
    
    public int executeInsert(InsertData data, Transaction tx) {
@@ -64,18 +74,23 @@ public class BasicUpdatePlanner implements UpdatePlanner {
          txNode = newUpdate(tx);
       else
          tx.txRedone();
-      Plan p = new TablePlan(data.tableName(), tx);
-      UpdateScan us = (UpdateScan) p.open();
-      us.insert();
-      Iterator<Constant> iter = data.vals().iterator();
-      for (String fldname : data.fields()) {
-         Constant val = iter.next();
-         us.setVal(fldname, val);
+      try {
+         Plan p = new TablePlan(data.tableName(), tx);
+         UpdateScan us = (UpdateScan) p.open();
+         us.insert();
+         Iterator<Constant> iter = data.vals().iterator();
+         for (String fldname : data.fields()) {
+            Constant val = iter.next();
+            us.setVal(fldname, val);
+         }
+         us.close();
+         if(txNode != null)
+            txNode.setCount(1);
+         return 1;
+      }  catch (Exception e) {
+         rollbackNode();
+         return -1;
       }
-      us.close();
-      if(txNode != null)
-         txNode.setCount(1);
-      return 1;
    }
 
    public int executeUndo(Transaction tx){
@@ -100,6 +115,13 @@ public class BasicUpdatePlanner implements UpdatePlanner {
       }
       current = current.getNextNode();
       return current.getTransaction();
+   }
+
+   private void rollbackNode(){
+      latest = latest.getPrevNode();
+      latest.getNextNode().setPrevNode(null);
+      latest.setNextNode(null);
+      current = latest;
    }
 
    private TransactionNode newUpdate(Transaction tx){

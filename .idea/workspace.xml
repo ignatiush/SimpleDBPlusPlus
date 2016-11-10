@@ -3,20 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3597a26a-b7d8-40a4-a1b4-01d7d1a443fd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb.jar" afterPath="$PROJECT_DIR$/simpledb.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/index/planner/IndexUpdatePlanner.class" afterPath="$PROJECT_DIR$/simpledb/index/planner/IndexUpdatePlanner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/planner/BasicUpdatePlanner.class" afterPath="$PROJECT_DIR$/simpledb/planner/BasicUpdatePlanner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/planner/Planner.class" afterPath="$PROJECT_DIR$/simpledb/planner/Planner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/planner/UpdatePlanner.class" afterPath="$PROJECT_DIR$/simpledb/planner/UpdatePlanner.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/remote/RemoteStatementImpl.class" afterPath="$PROJECT_DIR$/simpledb/remote/RemoteStatementImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/tx/Transaction.class" afterPath="$PROJECT_DIR$/simpledb/tx/Transaction.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/studentClient/simpledb/simpledb.jar" afterPath="$PROJECT_DIR$/studentClient/simpledb/simpledb.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/index/planner/IndexUpdatePlanner.java" afterPath="$PROJECT_DIR$/simpledb/index/planner/IndexUpdatePlanner.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/planner/BasicUpdatePlanner.java" afterPath="$PROJECT_DIR$/simpledb/planner/BasicUpdatePlanner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/planner/Planner.java" afterPath="$PROJECT_DIR$/simpledb/planner/Planner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/planner/UpdatePlanner.java" afterPath="$PROJECT_DIR$/simpledb/planner/UpdatePlanner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/remote/RemoteStatementImpl.java" afterPath="$PROJECT_DIR$/simpledb/remote/RemoteStatementImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simpledb/tx/Transaction.java" afterPath="$PROJECT_DIR$/simpledb/tx/Transaction.java" />
     </list>
     <ignored path="SimpleDB_2.10.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,8 +53,8 @@
       <file leaf-file-name="BasicUpdatePlanner.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/simpledb/planner/BasicUpdatePlanner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
+            <state relative-caret-position="504">
+              <caret line="113" column="44" selection-start-line="113" selection-start-column="44" selection-end-line="113" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -94,7 +83,7 @@
       <file leaf-file-name="RemoteStatementImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/simpledb/remote/RemoteStatementImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
+            <state relative-caret-position="711">
               <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -159,9 +148,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1280" />
-    <option name="height" value="723" />
+    <option name="x" value="1280" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -343,24 +332,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SimpleDB_2.10" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="simpledb client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -435,6 +406,24 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SimpleDB_2.10" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simpledb client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -444,6 +433,7 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
+    <property name="FullScreen" value="true" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -950,15 +940,16 @@
       <workItem from="1478066624527" duration="1314000" />
       <workItem from="1478140598765" duration="4187000" />
       <workItem from="1478677183477" duration="2961000" />
-      <workItem from="1478736944509" duration="4171000" />
+      <workItem from="1478736944509" duration="4289000" />
+      <workItem from="1478759182375" duration="1184000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45323000" />
+    <option name="totallyTimeSpent" value="46625000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="723" extended-state="6" />
+    <frame x="1280" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1003,7 +994,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1165,7 +1158,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="15" column="16" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1372,16 +1364,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simpledb/remote/RemoteStatementImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simpledb/tx/Transaction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -1390,10 +1372,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/simpledb/remote/RemoteStatementImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="711">
+          <caret line="68" column="14" selection-start-line="68" selection-start-column="14" selection-end-line="68" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/simpledb/planner/BasicUpdatePlanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
+        <state relative-caret-position="504">
+          <caret line="113" column="44" selection-start-line="113" selection-start-column="44" selection-end-line="113" selection-end-column="44" />
           <folding />
         </state>
       </provider>
