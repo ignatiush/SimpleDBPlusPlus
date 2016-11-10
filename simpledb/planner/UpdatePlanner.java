@@ -37,9 +37,9 @@ public interface UpdatePlanner {
     */
    public int executeModify(ModifyData data, Transaction tx);
 
-   public int executeUndo();
+   public int executeUndo(Transaction tx);
 
-   public int executeRedo(Transaction tx);
+   public Transaction executeRedo(Transaction tx);
    
    /**
     * Executes the specified create table statement, and

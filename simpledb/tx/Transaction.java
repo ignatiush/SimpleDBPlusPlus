@@ -13,7 +13,10 @@ import simpledb.tx.concurrency.ConcurrencyMgr;
  * @author Edward Sciore
  */
 public class Transaction {
+   private String cmd = null;
    private boolean toCommit = true;
+   private boolean firstUpdate = true;
+   private boolean isUndone = false;
    private static int nextTxNum = 0;
    private static final int END_OF_FILE = -1;
    private RecoveryMgr    recoveryMgr;
@@ -39,9 +42,23 @@ public class Transaction {
       concurMgr   = new ConcurrencyMgr();
    }
 
+   public void setCmd(String cmd) { this.cmd = cmd; }
+
+   public String getCmd() { return this.cmd; }
+
+   public void firstUpdateDone() { this.firstUpdate = false; }
+
+   public boolean isFirstUpdate() { return this.firstUpdate; }
+
    public void dontCommit(){
       this.toCommit = false;
    }
+
+   public void txUndone() { this.isUndone = true; }
+
+   public void txRedone() { this.isUndone = false; }
+
+   public boolean getIsUnDone() { return this.isUndone; }
 
    /**
     * Commits the current transaction.
