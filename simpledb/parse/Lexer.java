@@ -67,9 +67,38 @@ public class Lexer {
    public boolean matchId() {
       return  tok.ttype==StreamTokenizer.TT_WORD && !keywords.contains(tok.sval);
    }
-   
+
+   /**
+    * Returns true if the current token is an asterisk.
+    * @return true if the current token is an asterisk
+    */
+   public boolean matchAsterisk() {
+      return '*' == (char)tok.ttype;
+   }
+
+
+   /**
+    * Returns true if the current token is
+    * a comparator -- "\<" or "\>"
+    * @return true if the delimiter is the current token
+    */
+   public boolean matchComparator() {
+      return matchDelim('<') || matchDelim('>');
+   }
+
 //Methods to "eat" the current token
-   
+
+   /**
+    * Eats and returns the next character.
+    * Not sure if we'll use it. Just putting it here.
+    * @return the character eaten
+    */
+   public char eatNextChar() {
+      char c = (char) tok.ttype;
+      nextToken();
+      return c;
+   }
+
    /**
     * Throws an exception if the current token is not the
     * specified delimiter. 
@@ -135,6 +164,42 @@ public class Lexer {
       String s = tok.sval;
       nextToken();
       return s;
+   }
+
+   /**
+    * Throws an exception if the current token is not
+    * an asterisk.
+    * Otherwise, moves to the next token.
+    */
+   public void eatAsterisk() {
+      if (!matchAsterisk()) {
+         throw new BadSyntaxException();
+      }
+      nextToken();
+   }
+
+   /**
+    * Throws an exception if the current token is not
+    * a comparator -- < > = <= >=.
+    * Otherwise, moves to the next token.
+    */
+   public String eatComparator() {
+      if (matchDelim('=')) {
+         eatDelim('=');
+         String s = "=";
+         return s;
+      } else {
+         if (!matchComparator()) {
+            throw new BadSyntaxException();
+         }
+         String s = String.valueOf((char) tok.ttype);
+         nextToken();
+         if (matchDelim('=')) {
+            s = s.concat("=");
+            nextToken();
+         }
+         return s;
+      }
    }
    
    private void nextToken() {

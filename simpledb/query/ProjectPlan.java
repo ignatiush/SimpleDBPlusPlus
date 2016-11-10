@@ -19,8 +19,13 @@ public class ProjectPlan implements Plan {
     */
    public ProjectPlan(Plan p, Collection<String> fieldlist) {
       this.p = p;
-      for (String fldname : fieldlist)
-         schema.add(fldname, p.schema());
+      if (fieldlist.contains("*")) {
+         //System.out.println("I found star or * in the projection!");
+         schema.addAll(p.schema());
+      } else {
+         for (String fldname : fieldlist)
+            schema.add(fldname, p.schema());
+      }
    }
    
    /**

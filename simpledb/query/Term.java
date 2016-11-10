@@ -8,7 +8,37 @@ import simpledb.record.Schema;
  *
  */
 public class Term {
+   /**
+    * After a call to {@code Term()}, value is one of the following:
+    * True means <=, >=, or =
+    * False means nope
+    * (think of inclusive like mathematical ranges (1,infinity) versus [1, infinity)
+    */
+   private boolean cmp_inclusive = false;
+
+   /**
+    * After a call to {@code Term()}, value is one of the following:
+    * <ul>
+    * <li>{@code CMP_NOTHING} indicates only "=" accepted
+    * <li>{@code CMP_LESSTHAN} indicates a term lhs<rhs
+    * <li>{@code CMP_GREATERTHAN} indicates a term lhs>rhs
+    * </ul>
+    * <p>
+    * Should also check {@code cmp_inclusive} to see if it is inclusive
+    */
+   private int cmp_type = CMP_NOTHING;
+
+   /**
+    * Constant values
+    */
+   private static final int CMP_NOTHING = 0;
+   private static final int CMP_LESSTHAN = 1;
+   private static final int CMP_GREATERTHAN = 2;
+
+
+
    private Expression lhs, rhs;
+
    
    /**
     * Creates a new term that compares two expressions
@@ -16,9 +46,19 @@ public class Term {
     * @param lhs  the LHS expression
     * @param rhs  the RHS expression
     */
-   public Term(Expression lhs, Expression rhs) {
+   public Term(Expression lhs, Expression rhs, String predicateType) {
+      // lhs and rhs can be of subclass FieldName or Constant
       this.lhs = lhs;
       this.rhs = rhs;
+
+      if (predicateType.contains("=")) {
+         cmp_inclusive = true;
+      }
+      if (predicateType.contains("<")) {
+         cmp_type = CMP_LESSTHAN;
+      } else if (predicateType.contains(">")) {
+         cmp_type = CMP_GREATERTHAN;
+      }
    }
    
    /**
@@ -112,12 +152,38 @@ public class Term {
     * @return true if both expressions have the same value in the scan
     */
    public boolean isSatisfied(Scan s) {
+      // evaluate function handles field/constant
       Constant lhsval = lhs.evaluate(s);
       Constant rhsval = rhs.evaluate(s);
-      return rhsval.equals(lhsval);
+
+      int ret = rhsval.compareTo(lhsval);
+      if (cmp_inclusive && ret==0) {
+         return true;
+      }
+      if (cmp_type==CMP_GREATERTHAN && ret<0) {
+         return true;
+      } else if (cmp_type==CMP_LESSTHAN && ret>0) {
+         return true;
+      }
+
+      return false;
    }
    
    public String toString() {
-      return lhs.toString() + "=" + rhs.toString();
+      if (cmp_inclusive) {
+         if (cmp_type==CMP_GREATERTHAN) {
+            return lhs.toString() + ">=" + rhs.toString();
+         } else if (cmp_type==CMP_LESSTHAN) {
+            return lhs.toString() + "<=" + rhs.toString();
+         } else {
+            return lhs.toString() + "=" + rhs.toString();
+         }
+      }
+      if (cmp_type==CMP_GREATERTHAN) {
+         return lhs.toString() + ">" + rhs.toString();
+      } else if (cmp_type==CMP_LESSTHAN) {
+         return lhs.toString() + "<" + rhs.toString();
+      }
+      return lhs.toString() + ":" + rhs.toString();
    }
 }

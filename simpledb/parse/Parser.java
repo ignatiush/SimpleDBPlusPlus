@@ -37,9 +37,9 @@ public class Parser {
    
    public Term term() {
       Expression lhs = expression();
-      lex.eatDelim('=');
+      String predicateType = lex.eatComparator();
       Expression rhs = expression();
-      return new Term(lhs, rhs);
+      return new Term(lhs, rhs, predicateType);
    }
    
    public Predicate predicate() {
@@ -72,19 +72,30 @@ public class Parser {
       Object [] to_ret = new Object[2];
       Collection<String> L = new ArrayList<>();
       Map<String, String> as = new HashMap<String, String>();
-      String current = field();
-      L.add(current);
+      if (lex.matchAsterisk()) {
+         lex.eatAsterisk();
+         L.add("*");
+      } else {
+         String current = field();
+         L.add(current);
+         System.out.print("adding to arraylist: ");
+         System.out.print(current);
 
-      if (lex.matchKeyword("as")){
-         lex.eatKeyword("as");
-         String nName = field();
-         as.put(current, nName);
-      }
+         if (lex.matchKeyword("as")) {
+            lex.eatKeyword("as");
+            System.out.print(" as ");
+            String nName = field();
+            as.put(current, nName);
+            System.out.print(nName);
+         }
+         System.out.println();
 
-      if (lex.matchDelim(',')) {
-         lex.eatDelim(',');
-         L.addAll((Collection<String>) selectList()[0]);
-         as.putAll((HashMap<String, String>) selectList()[0]);
+         if (lex.matchDelim(',')) {
+            lex.eatDelim(',');
+            Object [] temp = selectList();
+            L.addAll((Collection<String>) temp[0]);
+            as.putAll((HashMap<String, String>) temp[1]); // this cannot add maps
+         }
       }
       to_ret[0] = L;
       to_ret[1] = as;
