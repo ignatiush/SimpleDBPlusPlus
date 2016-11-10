@@ -103,12 +103,12 @@ public class IndexUpdatePlanner implements UpdatePlanner {
       return count;
    }
 
-   public int executeUndo(){
+   public int executeUndo(Transaction tx){
       return 0;
    }
 
-   public int executeRedo(Transaction tx){
-      return 0;
+   public Transaction executeRedo(Transaction tx){
+      return null;
    }
 
    public int executeCreateTable(CreateTableData data, Transaction tx) {
