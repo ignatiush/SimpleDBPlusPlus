@@ -57,6 +57,8 @@ public class Predicate {
     * @return true if the predicate is true in the scan
     */
    public boolean isSatisfied(Scan s) {
+      if (disjuncts == 0)
+         return true;
       for (List<Term> disjunct : terms) {
          boolean satisfied = true;
          for (Term t : disjunct) {
@@ -105,8 +107,7 @@ public class Predicate {
          for (Term t : disjunct) {
             if (t.appliesTo(sch))
                if (notCreated) {
-                  ArrayList<Term> temp = new ArrayList<Term>();
-                  result.terms.add(temp);
+                  result.terms.add(new ArrayList<>());
                   result.disjuncts++;
                   notCreated = false;
                }
@@ -141,8 +142,7 @@ public class Predicate {
                     !t.appliesTo(sch2) &&
                     t.appliesTo(newsch)) {
                if (notCreated) {
-                  ArrayList<Term> temp = new ArrayList<Term>();
-                  result.terms.add(temp);
+                  result.terms.add(new ArrayList<>());
                   result.disjuncts++;
                   notCreated = false;
                }
@@ -204,10 +204,10 @@ public class Predicate {
          return "";
       String result = terms.get(0).get(0).toString();
       for (Term t : terms.get(0).subList(1, terms.get(0).size())){
-         result += "and" + t.toString();
+         result += "and " + t.toString();
       }
       for (List<Term> disjunct : terms.subList(1, terms.size())) {
-         result += "or" + disjunct.get(0).toString();
+         result += "or " + disjunct.get(0).toString();
          for (Term t : disjunct.subList(1, disjunct.size())) {
             result += t.toString();
          }
