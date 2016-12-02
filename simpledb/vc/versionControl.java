@@ -82,7 +82,7 @@ public class versionControl implements Serializable{
                     } catch (IOException e){
                         e.printStackTrace();
                     }
-                    newCommit.addFile(f);
+                    newCommit.addFile(target);
                 }
             }
         }
@@ -121,7 +121,7 @@ public class versionControl implements Serializable{
          */
 
     @SuppressWarnings("resource")
-    public static void copyFile(File sourceFile, File destFile) throws IOException {
+    private static void copyFile(File sourceFile, File destFile) throws IOException {
         if(!destFile.exists()) {
             destFile.createNewFile();
         }
@@ -144,7 +144,10 @@ public class versionControl implements Serializable{
         }
     }
 
-    private static class versionControlNode implements Serializable{
+    public static class versionControlNode implements Serializable{
+
+        private static final long serialVersionUID = 2L;
+
         versionControlNode myPrev;
         ArrayList<File> files;
         Integer id;
