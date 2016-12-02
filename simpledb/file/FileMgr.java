@@ -21,7 +21,7 @@ import java.util.*;
  * determine the end of the file.
  * @author Edward Sciore
  */
-public class FileMgr {
+public class FileMgr{
    private File dbDirectory;
    private boolean isNew;
    private Map<String,FileChannel> openFiles = new HashMap<String,FileChannel>();
@@ -49,6 +49,8 @@ public class FileMgr {
          if (filename.startsWith("temp"))
          new File(dbDirectory, filename).delete();
    }
+
+   public File getDbDirectory(){ return this.dbDirectory; }
 
    /**
     * Reads the contents of a disk block into a bytebuffer.

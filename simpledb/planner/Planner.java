@@ -58,6 +58,8 @@ public class Planner {
          return 0;
    }
 
+   public void resetTransactions(){ uplanner.resetTransactions(); }
+
    public int executeUndo(Transaction tx){
       return uplanner.executeUndo(tx);
    }

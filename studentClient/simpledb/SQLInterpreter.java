@@ -1,5 +1,6 @@
 import java.sql.*;
 import simpledb.remote.SimpleDriver;
+import simpledb.remote.SimpleStatement;
 import java.io.*;
 
 public class SQLInterpreter {
@@ -84,8 +85,13 @@ public class SQLInterpreter {
 	private static void doUpdate(String cmd) {
 		try {
 		    Statement stmt = conn.createStatement();
-		    int howmany = stmt.executeUpdate(cmd);
-		    System.out.println(howmany + " records processed");
+		    if((cmd.startsWith("commit")) || (cmd.startsWith("checkout"))){
+		    	stmt.executeUpdate(cmd);
+		    	System.out.println("Version Control Command Executed");
+		    }else{
+		    	int howmany = stmt.executeUpdate(cmd);
+		    	System.out.println(howmany + " records processed");
+			}
 		}
 		catch (SQLException e) {
 			System.out.println("SQL Exception: " + e.getMessage());

@@ -136,6 +136,12 @@ public class BasicUpdatePlanner implements UpdatePlanner {
       return newLatest;
    }
 
+   public void resetTransactions() {
+      head = new TransactionNode(null, null, null);
+      latest = head;
+      current = null;
+   }
+
    public int executeCreateTable(CreateTableData data, Transaction tx) {
 //      head = new TransactionNode(tx, null, null);
 //      latest = head;

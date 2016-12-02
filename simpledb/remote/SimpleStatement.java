@@ -33,5 +33,6 @@ public class SimpleStatement extends StatementAdapter {
          throw new SQLException(e);
       }
    }
+
 }
 

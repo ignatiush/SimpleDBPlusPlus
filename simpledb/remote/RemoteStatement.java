@@ -10,6 +10,7 @@ import java.rmi.*;
  */
 public interface RemoteStatement extends Remote {
    public RemoteResultSet executeQuery(String qry) throws RemoteException;
-   public int            executeUpdate(String cmd) throws RemoteException;
+   public int             executeUpdate(String cmd) throws RemoteException;
+   //public void            executeVCcmd(String cmd);
 }
 

@@ -111,6 +111,8 @@ public class IndexUpdatePlanner implements UpdatePlanner {
       return null;
    }
 
+   public void resetTransactions(){ return; }
+
    public int executeCreateTable(CreateTableData data, Transaction tx) {
       SimpleDB.mdMgr().createTable(data.tableName(), data.newSchema(), tx);
       return 0;

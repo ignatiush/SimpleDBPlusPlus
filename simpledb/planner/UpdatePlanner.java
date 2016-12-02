@@ -39,6 +39,8 @@ public interface UpdatePlanner {
 
    public int executeUndo(Transaction tx);
 
+   public void resetTransactions();
+
    public Transaction executeRedo(Transaction tx);
    
    /**
