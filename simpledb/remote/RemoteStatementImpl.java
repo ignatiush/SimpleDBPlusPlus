@@ -29,53 +29,6 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
       this.rconn = rconn;
    }
 
-   public int executeVCcmd(String cmd){
-      int result = 0;
-      versionControl vcObj = new versionControl();
-      File check = new File(SimpleDB.fileMgr().getDbDirectory().getAbsolutePath() + "/.vcObj/myState.ser");
-      if (check.exists()) {
-         try {
-            FileInputStream inFile = new FileInputStream(SimpleDB.fileMgr().getDbDirectory().getAbsolutePath() + "/.vcObj/myState.ser");
-            ObjectInputStream inObject = new ObjectInputStream(inFile);
-            vcObj = (versionControl) inObject.readObject();
-            inObject.close();
-         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-         } catch (IOException e) {
-            e.printStackTrace();
-         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-         }
-      }
-      vcObj.init(SimpleDB.fileMgr());
-      String[] commands = cmd.split(" ", 2);
-      switch (commands[0]){
-         case "commit":
-            result = vcObj.commit(commands[1]);
-            break;
-         case "checkout":
-            result = vcObj.checkout(commands[1]);
-            SimpleDB.planner().resetTransactions();
-            break;
-         default:
-            break;
-      }
-
-      try {
-         FileOutputStream outFile = new FileOutputStream(SimpleDB.fileMgr().getDbDirectory().getAbsolutePath() + "/.vcObj/myState.ser");
-         ObjectOutputStream outObject = new ObjectOutputStream(outFile);
-         outObject.writeObject(vcObj);
-         outObject.close();
-      } catch (FileNotFoundException e) {
-         e.printStackTrace();
-         return -1;
-      } catch (IOException e) {
-         e.printStackTrace();
-         return -1;
-      }
-      return result;
-   }
-
    /**
     * Executes the specified SQL query string.
     * The method calls the query planner to create a plan
@@ -106,7 +59,10 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
       Transaction tx = rconn.getTransaction();
       if ((cmd.startsWith("commit")) || (cmd.startsWith("checkout"))){
          result = executeVCcmd(cmd);
-         rconn.commit();
+         if(result == -1)
+             rconn.rollback();
+         else
+            rconn.commit();
          return result;
       }else if (cmd.startsWith("undo")) {
          result = SimpleDB.planner().executeUndo(tx);
@@ -138,4 +94,51 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
          }
       }
    }
+
+    private int executeVCcmd(String cmd){
+        int result = 0;
+        versionControl vcObj = new versionControl();
+        File check = new File(SimpleDB.fileMgr().getDbDirectory().getAbsolutePath() + "/.vcObj/myState.ser");
+        if (check.exists()) {
+            try {
+                FileInputStream inFile = new FileInputStream(SimpleDB.fileMgr().getDbDirectory().getAbsolutePath() + "/.vcObj/myState.ser");
+                ObjectInputStream inObject = new ObjectInputStream(inFile);
+                vcObj = (versionControl) inObject.readObject();
+                inObject.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        vcObj.init(SimpleDB.fileMgr());
+        String[] commands = cmd.split(" ", 2);
+        switch (commands[0]){
+            case "commit":
+                result = vcObj.commit(commands[1]);
+                break;
+            case "checkout":
+                result = vcObj.checkout(commands[1]);
+                SimpleDB.planner().resetTransactions();
+                break;
+            default:
+                break;
+        }
+
+        try {
+            FileOutputStream outFile = new FileOutputStream(SimpleDB.fileMgr().getDbDirectory().getAbsolutePath() + "/.vcObj/myState.ser");
+            ObjectOutputStream outObject = new ObjectOutputStream(outFile);
+            outObject.writeObject(vcObj);
+            outObject.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return result;
+    }
 }
