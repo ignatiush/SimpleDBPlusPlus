@@ -1,2 +1,7 @@
 *.class
 bin/*
+compileSDB.sh
+copystudentdb.sh
+runstudentdb.sh
+.idea/workspace.xml
+bin/.idea/workspace.xml
