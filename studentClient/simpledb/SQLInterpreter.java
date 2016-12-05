@@ -94,7 +94,7 @@ public class SQLInterpreter {
 		    			System.out.printf("State saved as Commit-%d\n", id);
 		    		}
 		    	}else{
-		    		if(id == 0){
+		    		if(id == -2){
 		    			System.out.println("No commit with that id exists.");
 		    		}else if(id == -1){
 		    			System.out.println("Exception occurred");

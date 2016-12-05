@@ -75,16 +75,14 @@ public class versionControl implements Serializable{
         File[] listOfFiles = dbDirFile.listFiles();
         for (File f:listOfFiles){
             if (f.isFile()){
-                if ((f.getName().endsWith(".tbl")) || (f.getName().endsWith(".log"))){
-                    File target = new File(dbDirectory + "/.vcObj/Commit-" + commitID + "/" + f.getName());
-                    try{
-                        copyFile(f, target);
-                    } catch (IOException e){
-                        e.printStackTrace();
-                        return -1;
-                    }
-                    newCommit.addFile(target);
+                File target = new File(dbDirectory + "/.vcObj/Commit-" + commitID + "/" + f.getName());
+                try{
+                    copyFile(f, target);
+                } catch (IOException e){
+                    e.printStackTrace();
+                    return -1;
                 }
+                newCommit.addFile(target);
             }
         }
         this.commitID++;
@@ -96,7 +94,7 @@ public class versionControl implements Serializable{
             Integer checkoutID = Integer.parseInt(id);
             if (!allCommitsByID.containsKey(checkoutID)) {
                 System.out.println("No commit with that id exists.");
-                return 0;
+                return -2;
             }else {
                 versionControlNode checkoutNode = allCommitsByID.get(checkoutID);
                 for (File f: checkoutNode.files){
