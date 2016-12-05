@@ -55,21 +55,21 @@ public class versionControl implements Serializable{
         }
     }
 
-    public void commit(String message){
+    public int commit(String message){
         versionControlNode newCommit = new versionControlNode(commitID, message, current);
         this.current = newCommit;
-        // add myCommit to the allCommitsByMessage HashMap
         if (!allCommitsByMessage.containsKey(message)) {
             allCommitsByMessage.put(message, new ArrayList<versionControlNode>());
         }
         allCommitsByMessage.get(message).add(current);
-        // add myCommit to the allCommitsByID HashMap
+
         allCommitsByID.put(commitID, newCommit);
         File commitFile = new File(dbDirectory + "/.vcObj/Commit-" + commitID + "/");
         try{
             commitFile.mkdir();
         } catch(Exception e){
             e.printStackTrace();
+            return -1;
         }
         File dbDirFile = new File(this.dbDirectory);
         File[] listOfFiles = dbDirFile.listFiles();
@@ -81,20 +81,23 @@ public class versionControl implements Serializable{
                         copyFile(f, target);
                     } catch (IOException e){
                         e.printStackTrace();
+                        return -1;
                     }
                     newCommit.addFile(target);
                 }
             }
         }
         this.commitID++;
+        return newCommit.id;
     }
 
-    public void checkout(String id) {
+    public int checkout(String id) {
         try {
             Integer checkoutID = Integer.parseInt(id);
-            if (!allCommitsByID.containsKey(checkoutID))
+            if (!allCommitsByID.containsKey(checkoutID)) {
                 System.out.println("No commit with that id exists.");
-            else {
+                return 0;
+            }else {
                 versionControlNode checkoutNode = allCommitsByID.get(checkoutID);
                 for (File f: checkoutNode.files){
                     //System.out.println(f.getAbsolutePath());
@@ -103,30 +106,26 @@ public class versionControl implements Serializable{
                         copyFile(f, target);
                     } catch (IOException e) {
                         e.printStackTrace();
+                        return -1;
                     }
                 }
+                return checkoutID;
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             System.out.println("Please check that you have enter a valid number for the commitID.");
+            return -1;
         }
     }
-
-        /**
-         * Method for copying a file to a destination file.
-         *
-         * @param sourceFile - file to be copied
-         * @param destFile - destination to copy the file to
-         * @throws IOException
-         */
 
     @SuppressWarnings("resource")
     private static void copyFile(File sourceFile, File destFile) throws IOException {
         if(!destFile.exists()) {
             destFile.createNewFile();
         }
-        System.out.println("source is " + sourceFile.getName() + " at " + sourceFile.getAbsolutePath());
-        System.out.println("dest is " + destFile.getName() + " at " + destFile.getAbsolutePath());
+
+        //System.out.println("source is " + sourceFile.getName() + " at " + sourceFile.getAbsolutePath());
+        //System.out.println("dest is " + destFile.getName() + " at " + destFile.getAbsolutePath());
 
         FileChannel source = null;
         FileChannel destination = null;

@@ -86,8 +86,22 @@ public class SQLInterpreter {
 		try {
 		    Statement stmt = conn.createStatement();
 		    if((cmd.startsWith("commit")) || (cmd.startsWith("checkout"))){
-		    	stmt.executeUpdate(cmd);
-		    	System.out.println("Version Control Command Executed");
+		    	int id = stmt.executeUpdate(cmd);
+		    	if(cmd.startsWith("commit")){
+		    		if(id == -1){
+		    			System.out.println("Exception occurred");
+		    		}else{
+		    			System.out.printf("State saved as Commit-%d\n", id);
+		    		}
+		    	}else{
+		    		if(id == 0){
+		    			System.out.println("No commit with that id exists.");
+		    		}else if(id == -1){
+		    			System.out.println("Exception occurred");
+		    		}else{
+		    			System.out.printf("Commit-%d was checked out\n", id);
+		    		}
+		    	}
 		    }else{
 		    	int howmany = stmt.executeUpdate(cmd);
 		    	System.out.println(howmany + " records processed");

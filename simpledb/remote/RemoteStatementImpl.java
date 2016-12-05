@@ -29,7 +29,8 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
       this.rconn = rconn;
    }
 
-   public void executeVCcmd(String cmd){
+   public int executeVCcmd(String cmd){
+      int result = 0;
       versionControl vcObj = new versionControl();
       File check = new File(SimpleDB.fileMgr().getDbDirectory().getAbsolutePath() + "/.vcObj/myState.ser");
       if (check.exists()) {
@@ -50,10 +51,10 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
       String[] commands = cmd.split(" ", 2);
       switch (commands[0]){
          case "commit":
-            vcObj.commit(commands[1]);
+            result = vcObj.commit(commands[1]);
             break;
          case "checkout":
-            vcObj.checkout(commands[1]);
+            result = vcObj.checkout(commands[1]);
             SimpleDB.planner().resetTransactions();
             break;
          default:
@@ -67,9 +68,12 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
          outObject.close();
       } catch (FileNotFoundException e) {
          e.printStackTrace();
+         return -1;
       } catch (IOException e) {
          e.printStackTrace();
+         return -1;
       }
+      return result;
    }
 
    /**
@@ -101,9 +105,9 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
       int result;
       Transaction tx = rconn.getTransaction();
       if ((cmd.startsWith("commit")) || (cmd.startsWith("checkout"))){
-         executeVCcmd(cmd);
+         result = executeVCcmd(cmd);
          rconn.commit();
-         return 0;
+         return result;
       }else if (cmd.startsWith("undo")) {
          result = SimpleDB.planner().executeUndo(tx);
          tx.dontCommit();
