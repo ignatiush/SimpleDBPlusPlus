@@ -99,12 +99,12 @@ class RemoteStatementImpl extends UnicastRemoteObject implements RemoteStatement
     */
    public int executeUpdate(String cmd) throws RemoteException {
       int result;
+      Transaction tx = rconn.getTransaction();
       if ((cmd.startsWith("commit")) || (cmd.startsWith("checkout"))){
          executeVCcmd(cmd);
+         rconn.commit();
          return 0;
-      }
-      Transaction tx = rconn.getTransaction();
-      if (cmd.startsWith("undo")) {
+      }else if (cmd.startsWith("undo")) {
          result = SimpleDB.planner().executeUndo(tx);
          tx.dontCommit();
          rconn.commit();

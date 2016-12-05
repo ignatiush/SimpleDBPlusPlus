@@ -97,7 +97,7 @@ public class versionControl implements Serializable{
             else {
                 versionControlNode checkoutNode = allCommitsByID.get(checkoutID);
                 for (File f: checkoutNode.files){
-                    System.out.println(f.getName());
+                    //System.out.println(f.getAbsolutePath());
                     File target = new File(dbDirectory + "/" + f.getName());
                     try{
                         copyFile(f, target);
@@ -116,7 +116,7 @@ public class versionControl implements Serializable{
          * Method for copying a file to a destination file.
          *
          * @param sourceFile - file to be copied
-         * @param destFile - destintion to copy the file to
+         * @param destFile - destination to copy the file to
          * @throws IOException
          */
 
@@ -125,13 +125,15 @@ public class versionControl implements Serializable{
         if(!destFile.exists()) {
             destFile.createNewFile();
         }
+        System.out.println("source is " + sourceFile.getName() + " at " + sourceFile.getAbsolutePath());
+        System.out.println("dest is " + destFile.getName() + " at " + destFile.getAbsolutePath());
 
         FileChannel source = null;
         FileChannel destination = null;
 
         try {
             source = new FileInputStream(sourceFile).getChannel();
-            destination = new FileOutputStream(destFile).getChannel();
+            destination = new FileOutputStream(destFile, false).getChannel();
             destination.transferFrom(source, 0, source.size());
         }
         finally {
