@@ -1,0 +1,15 @@
+select * from cities
+select * from cities where population > 10000
+select * from cities where population > 10000 and population < 100000
+select * from cities, states where population > 10 and population < 100 and cities.state = states.name or friendliness > 2 and cities.state = states.name
+select name as friends from people where city = 'urbana'
+commit "Original state"
+insert into people(name, ssn, city) values ('Amy', 1000, 'urbana')
+undo
+select * from people
+select * from cities where population > 1000000
+insert into people(name, ssn, city) values ('Amy', 1000, 'new york city')
+commit "Amy goes to New York City"
+checkout 0
+select * from people where city = 'new york city'
+insert into people(name, ssn, city) values ('Johnnie', 1001, 'new york city')
