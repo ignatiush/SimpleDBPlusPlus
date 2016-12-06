@@ -16,4 +16,3 @@ Hi there, welcome to our CS 411, Database Systems project. To get started, clone
 5a)	If you are running the studentdb for the first time, run 'java -cp simpledb.jar:. CreateStudentDB'. This will populate the studentdb and you can run 'java -cp simpledb.jar:. SQLInterpreter' to get the SQL interface.
 
 5b)	If you are running the demo for the first time, run 'java -cp simpledb.jar:. CreateDemoDB'. This will populate the demodb and you can run 'java -cp simpledb.jar:. SQLInterpreter' to get the SQL interface. For the demodb, we have provided some sample queries in the demoqueries.txt file to run.
-
